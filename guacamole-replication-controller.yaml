@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: guacamole-controller
+spec:
+  replicas: 1
+  selector:
+    app: guacamole
+  template:
+    metadata:
+      labels:
+        app: guacamole
+    spec:
+      containers:
+      - name: guacamole
+        image: docker-guacamole-plus
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MYSQL_USER
+          value: guacamole_user
+        - name: MYSQL_PASSWORD
+          value: guacamole_pass
+        - name: MYSQL_DATABASE
+          value: guacamole_db
+        - name: HOME
+          value: /tmp/home
+        - name: GUACAMOLE_HOME
+          value: /tmp/home
+      nodeSelector:
+        role: frontend

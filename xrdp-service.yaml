@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xrdp-service
+spec:
+  ports:
+  - port: 3389
+    protocol: TCP
+    name: rhel-xrdp
+  selector:
+    app: xrdp

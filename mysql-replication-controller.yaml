@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: mysql-guacamole-controller
+spec:
+  replicas: 1
+  selector:
+    app: guacamole-mysql
+  template:
+    metadata:
+      labels:
+        app: guacamole-mysql
+    spec:
+      containers:
+      - name: mysql
+        image: registry.access.redhat.com/openshift3/mysql-55-rhel7 
+        volumeMounts:
+          - name: nfs
+            mountPath: "/var/lib/mysql/data"
+        env:
+        - name: MYSQL_USER
+          value: guacamole_user
+        - name: MYSQL_PASSWORD
+          value: guacamole_pass
+        - name: MYSQL_DATABASE
+          value: guacamole_db
+      volumes:
+      - name: nfs
+        nfs:
+          server: 192.168.122.1
+          path: "/exports/mysql"
+      nodeSelector:
+        role: frontend

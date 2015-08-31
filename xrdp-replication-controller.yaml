@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: xrdp-controller
+spec:
+  replicas: 1
+  selector:
+    app: xrdp
+  template:
+    metadata:
+      labels:
+        app: xrdp
+    spec:
+      containers:
+      - name: rhel-vnc
+        image: rhel-vnc
+        ports:
+        - containerPort: 5901
+      - name: rhel-xrdp
+        image: rhel-xrdp
+        ports:
+        - containerPort: 3389
+      nodeSelector:
+        role: backend
