@@ -12,12 +12,12 @@ spec:
         app: xrdp
     spec:
       containers:
-      - name: rhel-vnc
-        image: rhel-vnc
+      - name: centos-vnc
+        image: docker.io/kevensen/centos-vnc-firefox
         ports:
         - containerPort: 5901
-      - name: rhel-xrdp
-        image: rhel-xrdp
+      - name: centos-xrdp
+        image: docker.io/kevensen/centos-xrdp
         ports:
         - containerPort: 3389
       nodeSelector:
