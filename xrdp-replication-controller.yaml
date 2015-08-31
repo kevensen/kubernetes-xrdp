@@ -12,7 +12,7 @@ spec:
         app: xrdp
     spec:
       containers:
-      - name: centos-vnc
+      - name: centos-vnc-firefox
         image: docker.io/kevensen/centos-vnc-firefox
         ports:
         - containerPort: 5901

@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: guacamole
-        image: docker-guacamole-plus
+        image: docker.io/glyptodon/guacamole
         ports:
         - containerPort: 8080
         env:
@@ -23,9 +23,9 @@ spec:
           value: guacamole_pass
         - name: MYSQL_DATABASE
           value: guacamole_db
-        - name: HOME
-          value: /tmp/home
-        - name: GUACAMOLE_HOME
-          value: /tmp/home
+#        - name: HOME
+#          value: /tmp/home
+#        - name: GUACAMOLE_HOME
+#          value: /tmp/home
       nodeSelector:
         role: frontend
