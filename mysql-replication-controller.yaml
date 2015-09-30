@@ -15,7 +15,7 @@ spec:
       - name: mysql
         image: registry.access.redhat.com/openshift3/mysql-55-rhel7 
         volumeMounts:
-          - name: nfs
+          - name: mysql-persistent-storage
             mountPath: "/var/lib/mysql/data"
         env:
         - name: MYSQL_USER
@@ -25,9 +25,8 @@ spec:
         - name: MYSQL_DATABASE
           value: guacamole_db
       volumes:
-      - name: nfs
-        nfs:
-          server: 192.168.122.1
-          path: "/exports/mysql"
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: claim-mysql
       nodeSelector:
         role: frontend
