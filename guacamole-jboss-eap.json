@@ -1,0 +1,101 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "quacamole-client-jboss-eap",
+    "creationTimestamp": null,
+    "annotations": {
+      "description": "Glypton's guacamole-client in JBoss EAP on OpenShift Enterprise 3",
+      "iconClass": "icon-jboss",
+      "tags": "jbosseap"
+    }
+  },
+  "labels": {
+    "template": "quacamole-client-jboss-eap"
+  },
+  "objects": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "guacamole-jboss-eap6",
+        "creationTimestamp": null
+      },
+      "spec": {},
+      "status": {
+        "dockerImageRepository": ""
+        }
+    },
+    {
+	"apiVersion": "v1",
+        "kind": "Service",
+        "metadata": {
+          "name": "guacamole-service"
+        },
+        "spec": {
+          "ports": [
+           {
+             "port": 8080,
+              "protocol": "TCP"
+           }
+          ],
+        "selector": {
+          "name": "frontend"
+        }
+    },
+    {
+
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "guacamole-jboss-eap-build",
+        "creationTimestamp": null,
+        "labels": {
+          "name": "guacamole-jboss-eap-build"
+        }
+      },
+      "spec": {
+	"triggers": [ 
+      	  {
+        	"type": "ImageChange"
+      	  }
+    	],
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "git://github.com/glyptodon/guacamole-client.git"
+          }
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+	      "kind": "ImageStreamTag",
+              "name": "jboss-eap6-openshift:latest",
+	      "namespace": "openshift"
+            },
+            "scripts": "https://raw.githubusercontent.com/kevensen/guacamole-josseap6-ose3/master",
+	    "env": [
+      	    {
+        	"name": "BUILD_LOGLEVEL",
+        	"value": "3" 
+      	    },
+            {
+                "name": "ARTIFACT_DIR",
+                "value": "guacamole/target"
+            }
+	  ],
+            "incremental": true
+          }
+        },
+	"output": { 
+     	 	"to": {
+        		"kind": "ImageStreamTag",
+        		"name": "guacamole-jboss-eap6:latest"
+      		}
+    	},
+	"resources": {}
+      }
+    }
+  ]
+}

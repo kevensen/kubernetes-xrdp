@@ -6,7 +6,7 @@ spec:
   capacity:
     storage: 2Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   nfs:
-    server: 192.168.133.205
+    server: nfs.ose3.kenscloud.io
     path: /exports/guacmysql

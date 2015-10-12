@@ -1,0 +1,57 @@
+{
+  "kind": "DeploymentConfig",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "frontend"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "labels": {
+          "name": "frontend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "guacamole-client",
+            "image": "kiosk/guacamole-jboss-eap6",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "replicas": 1,
+    "selector": {
+      "name": "frontend"
+    },
+    "triggers": [
+      {
+        "type": "ConfigChange"
+      },
+      {
+        "type": "ImageChange", 
+        "imageChangeParams": {
+          "automatic": true,
+          "containerNames": [
+            "guacamole-client"
+          ],
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "guacamole-jboss-eap6:latest",
+	    "namespace": "kiosk"
+          }
+        }
+      }
+    ],
+    "strategy": {
+      "type": "Rolling"
+    }
+  }
+}
+
